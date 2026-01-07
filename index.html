@@ -182,5 +182,36 @@
 
         <button class="roast-button">Roast My Resume 😈</button>
     </div>
+    <script>
+const button = document.querySelector(".roast-button");
+const textarea = document.querySelector("textarea");
+const output = document.querySelector(".output-section");
+const outputBox = document.querySelector(".output");
+
+button.addEventListener("click", async () => {
+  const resumeText = textarea.value;
+
+  if (!resumeText.trim()) {
+    alert("Paste resume first");
+    return;
+  }
+
+  output.style.display = "block";
+  outputBox.innerText = "Roasting your resume... 🔥";
+
+  const res = await fetch(
+    "https://resume-roaster-api.ab2893935.workers.dev",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ resume: resumeText })
+    }
+  );
+
+  const data = await res.json();
+  outputBox.innerText = data.roast || "Something went wrong";
+});
+</script>
+
 </body>
 </html>
